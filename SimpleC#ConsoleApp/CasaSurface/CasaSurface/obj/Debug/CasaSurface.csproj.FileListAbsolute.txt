@@ -1,0 +1,7 @@
+C:\Users\Sam\source\repos\CasaSurface\CasaSurface\obj\Debug\CasaSurface.csproj.CoreCompileInputs.cache
+C:\Users\Sam\source\repos\CasaSurface\CasaSurface\bin\Debug\CasaSurface.exe.config
+C:\Users\Sam\source\repos\CasaSurface\CasaSurface\bin\Debug\CasaSurface.exe
+C:\Users\Sam\source\repos\CasaSurface\CasaSurface\bin\Debug\CasaSurface.pdb
+C:\Users\Sam\source\repos\CasaSurface\CasaSurface\obj\Debug\CasaSurface.exe
+C:\Users\Sam\source\repos\CasaSurface\CasaSurface\obj\Debug\CasaSurface.pdb
+C:\Users\Sam\source\repos\CasaSurface\CasaSurface\obj\Debug\CasaSurface.csprojAssemblyReference.cache
