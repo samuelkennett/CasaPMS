@@ -13,6 +13,24 @@ namespace CasaSurface
             Console.WriteLine("Begin");
             Console.WriteLine("-------------");
             Console.WriteLine("press 0 to begin");
+     
+            /*
+            ** variable naming conventions
+                - class members : begin with m_
+                    - int       m_nCount
+                    - string    m_strBegin;
+                    - bool      m_bBegin;
+                    - date      m_dtStart;
+                    - time      m_tmStart
+                    
+                - local to function : same as class but without the m_
+                    - int       nCount;
+                    - string    strBegin;
+                    - bool      bBegin;
+                    - date      dtBegin;
+                    - time      tmBegin
+            */
+            
             string begin = Console.ReadLine();
             Room room1 = new Room();    //initialzes a new room object
             while (begin == "0") {  //begins simple program loop 0 is start/continue and 9 is exit
@@ -74,13 +92,14 @@ namespace CasaSurface
     }
     class Room
     {
-        public int roomNumber;  //unused in this program
-        string status;
-        bool cleaningInProgress;
-        bool roomCleanStatus;
+        public int  roomNumber;  //unused in this program
+        string      status;
+        bool        cleaningInProgress;
+        bool        roomCleanStatus;
 
         public Room()
         {
+            // roomNumber needs to be string: strRoomNumber
             int roomNumber = this.roomNumber;
             string status = this.status;
             bool cleaningInProgress = this.cleaningInProgress;
@@ -88,11 +107,12 @@ namespace CasaSurface
         }
         public void beginCleaning()
         {
+            
             this.cleaningInProgress = true;
             this.status = "Not Clean";
             Console.WriteLine(DateTime.Now);
             Console.WriteLine("Cleaning is In progress");
-           
+           // data will updated here
         }
 
         public void finishCleaning()
