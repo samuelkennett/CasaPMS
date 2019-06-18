@@ -9,8 +9,6 @@ using System.Data.SqlClient;
 namespace CasaSurface
 {
 
-    
-
     class Program
     {
        
@@ -38,16 +36,11 @@ namespace CasaSurface
             */
             
             string begin = Console.ReadLine();
-
             Room room1 = new Room();    //initialzes a new room object
-
             //----------------------------------------------------
             //Testing Database Calls
-
             //Just a test funtion to ensure the data is properly pulled from the database.
             SQLCommands.SelectAllRooms();
-            
-
             //----------------------------------------------------
 
 
@@ -110,106 +103,4 @@ namespace CasaSurface
 
         }
     }
-    class Room
-    {
-        public string  m_roomNumber;  //currently unused
-        string      m_status;
-        bool        m_cleaningInProgress;
-        bool        m_roomCleanStatus;
-
-        public Room()
-        {
-            // roomNumber needs to be string: strRoomNumber
-            string roomNumber = this.m_roomNumber;
-            string status = this.m_status;
-            bool cleaningInProgress = this.m_cleaningInProgress;
-            bool roomCleanStatus = this.m_roomCleanStatus;
-        }
-        public void beginCleaning()
-        {
-            
-            this.m_cleaningInProgress = true;
-            this.m_status = "Not Clean";
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine("Cleaning is In progress");
-
-            // data will updated here
-            //SQL function to be put here
-            SQLCommands.UpdateBeginCleaned("101");
-
-        }
-
-        public void finishCleaning()
-        {
-            this.m_cleaningInProgress = false;
-            this.m_status = "Clean";
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine("Room has finished being cleaned.");
-
-            
-        }
-
-        public bool GetCleaningInProgress()
-        {
-            return this.m_cleaningInProgress;
-        }
-
-        public string GetStatus()
-        {
-            return this.m_status;
-        }
-
-    }
-
-
-    //-----------------------------------------------------------------------------------------------------------------------
-    //This class will eventually go in its own C# file.
-    public class SQLCommands
-    {
-        public const string m_dbConnectionString = "Data Source=Sam-PC; Initial Catalog = TestDB; Integrated Security=SSPI";
-        public const SqlDataReader rdr = null;
-        public static void SelectAllRooms() //Just a test funtion to ensure that data is properly pulled from the Database
-        {
-            try
-            {
-                
-                SqlConnection con = new SqlConnection(m_dbConnectionString);
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select roomNumber from Room",con);
-                SqlDataReader rdr = cmd.ExecuteReader();
-
-                while(rdr.Read())
-                {
-                    Console.WriteLine(rdr[0]);
-                }
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error");
-            }
-            
-                
-        }
-
-        public static void UpdateBeginCleaned(string roomNumber)
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection(m_dbConnectionString);
-                con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Room SET CleaningInProgress = True WHERE roomNumber =" + roomNumber, con);//currently not able to update the table where roomNumber = 101
-                cmd.BeginExecuteNonQuery();
-                con.Close();
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error!");
-            }
-        }
-
-        
-    }
-    //----------------------------------------------------------------------------------------------------------------------------------
-    
 }
