@@ -9,8 +9,11 @@ namespace CasaSurface
 {
     public class SQLCommands
     {
-        public const string m_dbConnectionString = "Data Source=Sam-PC; Initial Catalog = TestDB; Integrated Security=SSPI";
+        //database connection string for Sam-PC, this is my local server, Initial Catalog is the Database, Integrated Security is supposed to require permission when altering a database but does nothing right now.
+        public const string m_dbConnectionString = "Data Source=Sam-PC; Initial Catalog = TestDB; Integrated Security=SSPI"; 
+                                                                                                                                
         public const SqlDataReader rdr = null;
+
         public static void SelectAllRooms() //Just a test funtion to ensure that data is properly pulled from the Database
         {
             try
@@ -43,9 +46,9 @@ namespace CasaSurface
             {
                 SqlConnection con = new SqlConnection(m_dbConnectionString);
                 con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Room SET CleaningInProgress="+ cleaningInProgress + "WHERE roomNumber =" + roomNumber, con);
+                SqlCommand cmd = new SqlCommand("UPDATE Room SET CleaningInProgress="+ cleaningInProgress + "WHERE roomNumber =" + roomNumber, con); //updates the CleaningInProgress field to TRUE in database
                 cmd.ExecuteNonQuery();
-                SqlCommand cmd2 = new SqlCommand("UPDATE Room SET RoomCleanStatus =" + roomCleanStatus + "WHERE roomNumber =" + roomNumber, con);
+                SqlCommand cmd2 = new SqlCommand("UPDATE Room SET RoomCleanStatus =" + roomCleanStatus + "WHERE roomNumber =" + roomNumber, con); //updates the RoomCleanStatus field to FALSE in database
                 cmd2.ExecuteNonQuery();
                 con.Close();
             }
@@ -61,9 +64,9 @@ namespace CasaSurface
             {
                 SqlConnection con = new SqlConnection(m_dbConnectionString);
                 con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Room SET RoomCleanStatus =" + roomCleanStatus + "WHERE roomNumber =" + roomNumber, con);
+                SqlCommand cmd = new SqlCommand("UPDATE Room SET RoomCleanStatus =" + roomCleanStatus + "WHERE roomNumber =" + roomNumber, con); //Updates the RoomCleanStatus to TRUE in the database
                 cmd.ExecuteNonQuery();
-                SqlCommand cmd2 = new SqlCommand("UPDATE Room SET CleaningInProgress =" + cleaningInProgress + "WHERE roomNumber =" + roomNumber, con);
+                SqlCommand cmd2 = new SqlCommand("UPDATE Room SET CleaningInProgress =" + cleaningInProgress + "WHERE roomNumber =" + roomNumber, con); //Updates the CleaningInProgress field to FALSE in the database
                 cmd2.ExecuteNonQuery();
                 con.Close();
             }
