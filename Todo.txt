@@ -1,0 +1,8 @@
+ToDo's
+
+--------------------------------------------------------------------------------------------------------------------------
+6/18/19
+- Work on SQL Funtions, put them in their own file. 
+- Work on the Console App: Add the ability to select specific rooms from a list.
+			   Update the database depending on the option selected (i.e. room being cleaned, room finished).
+--------------------------------------------------------------------------------------------------------------------------
