@@ -6,3 +6,7 @@ ToDo's
 - Work on the Console App: Add the ability to select specific rooms from a list.
 			   Update the database depending on the option selected (i.e. room being cleaned, room finished).
 --------------------------------------------------------------------------------------------------------------------------
+6/19/19
+- Update Status in the Database (i.e. 'Clean'/'NotClean')
+- Handle when a user selects finish room before the room is started.
+- Implement a time stamp for when the room starts being cleaned and ends being cleaned.
