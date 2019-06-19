@@ -9,7 +9,7 @@ namespace CasaSurface
     class Room
     {
         public string m_roomNumber;  
-        string m_status;
+        public string m_status;
         bool m_cleaningInProgress;
         bool m_roomCleanStatus;
 
@@ -26,13 +26,13 @@ namespace CasaSurface
             //roomNumber must be passed for SQLCommand to know which Room field to update in the Database
             this.m_cleaningInProgress = true;
             this.m_roomCleanStatus = false;
-            this.m_status = "Not Clean";
+            this.m_status = "'NotClean'";
             Console.WriteLine(DateTime.Now);
             Console.WriteLine("Cleaning is In progress");
             
             //Database call
             SQLCommands.UpdateBeginCleaning(roomNumber, BoolToBin(m_cleaningInProgress), BoolToBin(m_roomCleanStatus)); //converts boolean value to string for sql command
-
+            SQLCommands.UpdateRoomStatus(roomNumber, this.m_status);//updates the database field of Status to "NotClean" given a specific room number
         }
 
         public void finishCleaning(string roomNumber)
@@ -40,12 +40,13 @@ namespace CasaSurface
             //roomNumber must be passed for SQLCommand to know which Room field to update in the Database
             this.m_cleaningInProgress = false;
             this.m_roomCleanStatus = true;
-            this.m_status = "Clean";
+            this.m_status = "'Clean'";
             Console.WriteLine(DateTime.Now);
             Console.WriteLine("Room has finished being cleaned.");
 
             //Database Call
             SQLCommands.UpdateFinishCleaning(roomNumber, BoolToBin(m_roomCleanStatus), BoolToBin(m_cleaningInProgress));
+            SQLCommands.UpdateRoomStatus(roomNumber, this.m_status);//updates the database field of Status to "Clean" given a specific room number.
 
 
         }

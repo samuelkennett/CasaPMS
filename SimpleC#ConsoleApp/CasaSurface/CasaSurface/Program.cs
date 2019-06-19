@@ -93,12 +93,14 @@ namespace CasaSurface
                         Console.WriteLine("Begin room clean.");
                         if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == "False")
                         {
+                            
                             room.beginCleaning(room.m_roomNumber);
                             Console.WriteLine("Current status: " + room.GetStatus());
                             Console.WriteLine("------------");
                         }
                         else
                         {
+                            room.SetStatus("'NotClean'");
                             Console.WriteLine("Room has already begun to be cleaned.");
                             Console.WriteLine("Current status: " + room.GetStatus());
                             Console.WriteLine("------------");
@@ -109,13 +111,14 @@ namespace CasaSurface
                     case 2:
                         Console.WriteLine("Finish cleaning room.");
                         if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == "True")
-                        {
+                        {                           
                             room.finishCleaning(room.m_roomNumber);
                             Console.WriteLine("Current status: " + room.GetStatus());
                             Console.WriteLine("------------");
                         }
                         else
                         {
+                            room.SetStatus("'Clean'");
                             Console.WriteLine("Room has already been cleaned");
                             Console.WriteLine("Current status: " + room.GetStatus());
                             Console.WriteLine("------------");

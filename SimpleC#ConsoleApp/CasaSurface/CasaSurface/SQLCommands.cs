@@ -77,7 +77,7 @@ namespace CasaSurface
             }
         }
 
-        public static string SQLGetCleaningInProgress(string roomNumber)
+        public static string SQLGetCleaningInProgress(string roomNumber) //Retrieves a RoomCleanStatus value from the database given a room number. Then converts the TRUE or FALSE value to a String.
         {
             try
             {
@@ -88,7 +88,7 @@ namespace CasaSurface
                 {
                     if (reader.Read())
                     {
-                        return String.Format("{0}", reader["CleaningInProgress"]);
+                        return String.Format("{0}", reader["CleaningInProgress"]);//converts bool to string
 
                     }
                     else
@@ -108,9 +108,25 @@ namespace CasaSurface
 
         }
 
-            
+        //UpdateStatus
+        public static void UpdateRoomStatus(string roomNumber, string status)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(m_dbConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("UPDATE Room SET Status =" + status + " WHERE roomNumber=" + roomNumber, con); //Updates the Status field in the database given a specific room number 
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating Status!");
+                Console.WriteLine(ex.ToString());
+            }
         }
-        //GrabRoomFunction
 
     }
+        
+}
 
