@@ -76,5 +76,41 @@ namespace CasaSurface
                
             }
         }
+
+        public static string SQLGetCleaningInProgress(string roomNumber)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(m_dbConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT CleaningInProgress FROM Room WHERE roomNumber =" + roomNumber, con);
+                using(SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return String.Format("{0}", reader["CleaningInProgress"]);
+
+                    }
+                    else
+                    {
+                        return "Null Field";
+                    }
+                    
+                }
+                con.Close();
+            }
+
+            catch (Exception)
+            {
+                Console.WriteLine("SQL Command Error!");
+                return "-1";
+            }
+
+        }
+
+            
+        }
+        //GrabRoomFunction
+
     }
-}
+

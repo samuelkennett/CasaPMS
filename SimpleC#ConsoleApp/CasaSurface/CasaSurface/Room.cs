@@ -8,7 +8,7 @@ namespace CasaSurface
 {
     class Room
     {
-        public string m_roomNumber;  //currently unused
+        public string m_roomNumber;  
         string m_status;
         bool m_cleaningInProgress;
         bool m_roomCleanStatus;
@@ -21,7 +21,7 @@ namespace CasaSurface
             bool cleaningInProgress = this.m_cleaningInProgress;
             bool roomCleanStatus = this.m_roomCleanStatus;
         }
-        public void beginCleaning()
+        public void beginCleaning(string roomNumber)
         {
             //roomNumber must be passed for SQLCommand to know which Room field to update in the Database
             this.m_cleaningInProgress = true;
@@ -30,13 +30,12 @@ namespace CasaSurface
             Console.WriteLine(DateTime.Now);
             Console.WriteLine("Cleaning is In progress");
             
-            // data will updated here
-            //SQL function to be put here
-            SQLCommands.UpdateBeginCleaning("101", BoolToBin(m_cleaningInProgress), BoolToBin(m_roomCleanStatus)); //converts boolean value to string for sql command
+            //Database call
+            SQLCommands.UpdateBeginCleaning(roomNumber, BoolToBin(m_cleaningInProgress), BoolToBin(m_roomCleanStatus)); //converts boolean value to string for sql command
 
         }
 
-        public void finishCleaning()
+        public void finishCleaning(string roomNumber)
         {
             //roomNumber must be passed for SQLCommand to know which Room field to update in the Database
             this.m_cleaningInProgress = false;
@@ -46,14 +45,29 @@ namespace CasaSurface
             Console.WriteLine("Room has finished being cleaned.");
 
             //Database Call
-            SQLCommands.UpdateFinishCleaning("101", BoolToBin(m_roomCleanStatus), BoolToBin(m_cleaningInProgress));
+            SQLCommands.UpdateFinishCleaning(roomNumber, BoolToBin(m_roomCleanStatus), BoolToBin(m_cleaningInProgress));
 
 
         }
 
+        public string GetRoomNumber()
+        {
+            return this.m_roomNumber;
+        }
+
+        public void SetRoomNumber(string roomNumber)
+        {
+            this.m_roomNumber = roomNumber;
+        }
         public bool GetCleaningInProgress()
         {
+
             return this.m_cleaningInProgress;
+        }
+
+        public void SetCleaningInProgresss(bool cleaningInProgress)
+        {
+            this.m_cleaningInProgress = cleaningInProgress;
         }
 
         public string GetStatus()
@@ -61,6 +75,21 @@ namespace CasaSurface
             return this.m_status;
         }
 
+        public void SetStatus(string status)
+        {
+            this.m_status = status;
+        }
+
+        public bool GetRoomCleanStatus()
+        {
+            return this.m_roomCleanStatus;
+        }
+
+        public void SetRoomCleanStatus(bool roomCleanStatus)
+        {
+            this.m_roomCleanStatus = roomCleanStatus;
+
+        }
         public string BoolToBin(bool someString) // takes a boolean value and returns a string of either 1 or 0.
         {
             string bin = null;
