@@ -14,8 +14,34 @@ namespace CasaSurface
        
         static void Main(string[] args)
         {
+
             Console.WriteLine("Begin");
             Console.WriteLine("-------------");
+            Console.WriteLine("Please select which housekeeper you are:");
+            Console.WriteLine("1. Sam");
+            Console.WriteLine("2. Ed");
+            Console.WriteLine("3. Wade");
+
+            string strCurrentHskpr = null ;
+            string strHskprSelect = Console.ReadLine();
+            int nHskprSelect = Convert.ToInt32(strHskprSelect);
+
+            switch (nHskprSelect)
+            {
+                case 1:
+                    strCurrentHskpr = "'Sam'";
+                    break;
+
+                case 2:
+                    strCurrentHskpr = "'Ed'";
+                    break;
+
+                case 3:
+                    strCurrentHskpr = "'Wade'";
+                    break;
+
+            }
+
             Console.WriteLine("press 0 to begin");
             
      
@@ -62,19 +88,22 @@ namespace CasaSurface
                     case 1:
 
                         Console.WriteLine("Room 101 Selected");
-                        room.SetRoomNumber("101");                     
+                        room.SetRoomNumber("101");
+                        room.SetHskprName(strCurrentHskpr);
                         break;
 
                     case 2:
 
                         Console.WriteLine("Room 102 Selected");
                         room.SetRoomNumber("102");
+                        room.SetHskprName(strCurrentHskpr);
                         break;
 
                     case 3:
 
                         Console.WriteLine("Room 103 Selected");
                         room.SetRoomNumber("103");
+                        room.SetHskprName(strCurrentHskpr);
                         break;
 
                 }
@@ -91,18 +120,18 @@ namespace CasaSurface
                     case 1:
 
                         Console.WriteLine("Begin room clean.");
-                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == "False")
+                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 0)
                         {
                             
-                            room.beginCleaning(room.m_roomNumber);
-                            Console.WriteLine("Current status: " + room.GetStatus());
+                            room.beginCleaning(room.m_strRoomNumber);
+                            Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
                         }
                         else
                         {
                             room.SetStatus("'NotClean'");
                             Console.WriteLine("Room has already begun to be cleaned.");
-                            Console.WriteLine("Current status: " + room.GetStatus());
+                            Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
                             break;
                         }
@@ -110,17 +139,17 @@ namespace CasaSurface
 
                     case 2:
                         Console.WriteLine("Finish cleaning room.");
-                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == "True")
+                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 1)
                         {                           
-                            room.finishCleaning(room.m_roomNumber);
-                            Console.WriteLine("Current status: " + room.GetStatus());
+                            room.finishCleaning(room.m_strRoomNumber);
+                            Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
                         }
                         else
                         {
                             room.SetStatus("'Clean'");
                             Console.WriteLine("Room has already been cleaned");
-                            Console.WriteLine("Current status: " + room.GetStatus());
+                            Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
                             break;
                         }
