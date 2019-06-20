@@ -5,3 +5,7 @@ C:\Users\Sam\source\repos\CasaSurface\CasaSurface\bin\Debug\CasaSurface.pdb
 C:\Users\Sam\source\repos\CasaSurface\CasaSurface\obj\Debug\CasaSurface.exe
 C:\Users\Sam\source\repos\CasaSurface\CasaSurface\obj\Debug\CasaSurface.pdb
 C:\Users\Sam\source\repos\CasaSurface\CasaSurface\obj\Debug\CasaSurface.csprojAssemblyReference.cache
+C:\Users\Sam\Documents\GitHub\CasaPMS\SimpleC#ConsoleApp\CasaSurface\CasaSurface\obj\Debug\CasaSurface.csprojAssemblyReference.cache
+C:\Users\Sam\Documents\GitHub\CasaPMS\SimpleC#ConsoleApp\CasaSurface\CasaSurface\obj\Debug\CasaSurface.csproj.CoreCompileInputs.cache
+C:\Users\Sam\Documents\GitHub\CasaPMS\SimpleC#ConsoleApp\CasaSurface\CasaSurface\obj\Debug\CasaSurface.exe
+C:\Users\Sam\Documents\GitHub\CasaPMS\SimpleC#ConsoleApp\CasaSurface\CasaSurface\obj\Debug\CasaSurface.pdb

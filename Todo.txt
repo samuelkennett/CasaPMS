@@ -10,3 +10,9 @@ ToDo's
 - Update Status in the Database (i.e. 'Clean'/'NotClean')
 - Handle when a user selects finish room before the room is started.
 - Implement a time stamp for when the room starts being cleaned and ends being cleaned.
+--------------------------------------------------------------------------------------------------------------------------
+6/20/19
+- Rename all variables with proper naming conventions.
+- Rename all database columns with their proper names and add the necesary new columns (i.e. HskprName).
+- Implement select housekeeper and have the database updated properly.
+- Implement TimeIn and TimeOut and have the database updated properly.
