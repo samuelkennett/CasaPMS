@@ -16,3 +16,7 @@ ToDo's
 - Rename all database columns with their proper names and add the necesary new columns (i.e. HskprName).
 - Implement select housekeeper and have the database updated properly.
 - Implement TimeIn and TimeOut and have the database updated properly.
+--------------------------------------------------------------------------------------------------------------------------
+6/21/19
+- Implement UpdateTimeElapsed, UpdateTimeInAsString, UpdateTimeOutAsString database call methods for RoomCleaning table.
+- Import CasaPMS database tables for testing.
