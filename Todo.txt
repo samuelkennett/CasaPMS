@@ -21,3 +21,6 @@ ToDo's
 - Implement UpdateTimeElapsed, UpdateTimeInAsString, UpdateTimeOutAsString database call methods for RoomCleaning table.
 - Improve TimeIn and TimeOut database call methods so they are not utilizing the SQL GETDATE() method.
 - Import CasaPMS database tables for testing.
+--------------------------------------------------------------------------------------------------------------------------
+6/22/19
+- Finish Implementing UpdateTimeInAsString and UpdateTimeOutAsString database calls
