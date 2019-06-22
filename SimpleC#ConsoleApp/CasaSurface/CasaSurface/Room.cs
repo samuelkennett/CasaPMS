@@ -8,9 +8,9 @@ namespace CasaSurface
 {
     class Room
     {
-        public string m_strRoomNumber;  //m_strRroomNumber;
+        public string m_strRoomNumber;  
         public string m_strHouseKeepingStatus;
-        int m_nCleaningInProgress;//m_bCleaningInProgress;
+        int m_nCleaningInProgress;
         int m_nRoomCleanStatus;
         string m_strHskprName;
         DateTime m_dtTimeIn;
@@ -31,20 +31,22 @@ namespace CasaSurface
             DateTime CurrentDate;
             CurrentDate = DateTime.Now;
 
-            this.m_dtTimeIn = CurrentDate;
+            this.m_dtTimeIn = CurrentDate;//Stores the DateTime in this Room object instance
             this.m_nCleaningInProgress = 1;
             this.m_nRoomCleanStatus = 0;
             this.m_strHouseKeepingStatus = "'NotClean'";
-            this.m_dtTimeIn = CurrentDate;
-            Console.WriteLine(CurrentDate);
+            string strCurrentDate = CurrentDate.ToString("yyyy-MM-dd HH:mm:ss.fff");//formats DateTime object CurrentDate for SQL Query
+            string strCurrentDateAsString = CurrentDate.ToString("HH:mm: tt");
+
+            Console.WriteLine(strCurrentDate);
             Console.WriteLine("Cleaning is In progress");
             
             //Database calls
-            SQLCommands.UpdateBeginCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus); //converts boolean value to string for sql command
-            SQLCommands.UpdateRoomStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates the database field of Status to "NotClean" given a specific room number
-            SQLCommands.UpdateTimeIn(strRoomNumber);
-            SQLCommands.UpdateHouseKeeper(m_strRoomNumber, m_strHskprName);
-
+            SQLCommands.UpdateBeginCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus); //updates the database field of CleaningInProgress to 1 and RoomCLeanStatus to 0
+            SQLCommands.UpdateHouseKeepingStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates HousekeepingStatus field to 'NotClean' in DB: Casadatabase --> Table: Rooms
+            SQLCommands.UpdateTimeIn(strRoomNumber, strCurrentDate);////updates TimeIn field to current time including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
+            SQLCommands.UpdateHouseKeeper(m_strRoomNumber, m_strHskprName);//updates the HskprName field to what is selected in the beginning of the program in DB: CasaDatabase --> Table: Rooms
+            SQLCommands.UpdateTimeInAsStr(strRoomNumber, strCurrentDateAsString);//updates TimInAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
         }
 
 
@@ -53,18 +55,30 @@ namespace CasaSurface
             DateTime CurrentDate;
             CurrentDate = DateTime.Now;
 
-            this.m_dtTimeOut = CurrentDate; 
+            this.m_dtTimeOut = CurrentDate; //Stores the DateTime in this Room object instance
             this.m_nCleaningInProgress = 0;
             this.m_nRoomCleanStatus = 1;
             this.m_strHouseKeepingStatus = "'Clean'";
-            this.m_dtTimeOut = CurrentDate;
-            Console.WriteLine(CurrentDate);
+            string strCurrentDate = CurrentDate.ToString("yyyy-MM-dd HH:mm:ss.fff");//formats DateTime object CurrentDate for SQL Query
+            string strCurrentDateAsString = CurrentDate.ToString("HH:mm: tt");
+
+            Console.WriteLine(strCurrentDate);
             Console.WriteLine("Room has finished being cleaned.");
+
+
+            //TimeSpanTest - Attempting to get number of minutes 
+            //--------------------------------------------------------------
+            TimeSpan tsTimeSpanTest = m_dtTimeOut.Subtract(m_dtTimeOut);    
+            Console.WriteLine(tsTimeSpanTest.Seconds);
+            //--------------------------------------------------------------
+
 
             //Database Call
             SQLCommands.UpdateFinishCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus);
-            SQLCommands.UpdateRoomStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates the database field of Status to "Clean" given a specific room number.
-            SQLCommands.UpdateTimeOut(strRoomNumber);
+            SQLCommands.UpdateHouseKeepingStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates HousekeepingStatus field to 'Clean' in DB: Casadatabase --> Table: Rooms
+            SQLCommands.UpdateTimeOut(strRoomNumber, strCurrentDate);//updates TimeOut field to current time including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
+            SQLCommands.UpdateTimeOutAsStr(strRoomNumber, strCurrentDateAsString);//updates TimeOutAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
+            //SQLCommands.UpdateElapsedTime(strRoomNumber, m_dtTimeIn, m_dtTimeOut);
 
         }
 
@@ -113,19 +127,5 @@ namespace CasaSurface
         {
             this.m_strHskprName = strHskprName;
         }
-        public int BoolToInt(bool boolSomeBool) // takes a boolean value and returns a string of either 1 or 0.
-        {
-            int bin;
-            if(boolSomeBool == true)
-            {
-                bin = 1;
-            }
-            else
-            {
-                bin = 1;
-            }
-            return bin;
-        }
-
     }
 }

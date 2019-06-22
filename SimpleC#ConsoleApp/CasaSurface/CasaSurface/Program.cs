@@ -24,7 +24,7 @@ namespace CasaSurface
 
             string strCurrentHskpr = null ;
             string strHskprSelect = Console.ReadLine();
-            int nHskprSelect = Convert.ToInt32(strHskprSelect);
+            int nHskprSelect = Convert.ToInt32(strHskprSelect);//convert string to int for switch statement
 
             switch (nHskprSelect)
             {
@@ -42,33 +42,11 @@ namespace CasaSurface
 
             }
 
-            Console.WriteLine("press 0 to begin");
-            
-     
-            /*
-            ** variable naming conventions
-                - class members : begin with m_
-                    - int       m_nCount
-                    - string    m_strBegin;
-                    - bool      m_bBegin;
-                    - date      m_dtStart;
-                    - time      m_tmStart
-                    
-                - local to function : same as class but without the m_
-                    - int       nCount;
-                    - string    strBegin;
-                    - bool      bBegin;
-                    - date      dtBegin;
-                    - time      tmBegin
-            */
-            
+            Console.WriteLine("press 0 to begin");           
             string begin = Console.ReadLine();
             Console.WriteLine();
             Console.WriteLine();
-              
-
-            
-            
+ 
             while (begin == "0") {  //begins simple program loop 0 is start/continue and 9 is exit
 
                 
@@ -78,11 +56,12 @@ namespace CasaSurface
                 Console.WriteLine("1. Room 101");
                 Console.WriteLine("2. Room 102");
                 Console.WriteLine("3. Room 103");
+
+                //Create Room Object
                 Room room = new Room();
 
-
                 string input = Console.ReadLine();
-                int response = Convert.ToInt32(input);  //needs to convert string to int for switch statement
+                int response = Convert.ToInt32(input);  //convert string to int for switch statement
                 switch (response)
                 {
                     case 1:
