@@ -118,6 +118,38 @@ namespace CasaSurface
 
         }
 
+        public static DateTime SQLGetTimeIn(string strRoomNumber)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(m_strDbConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT TimeIn FROM RoomCleaning WHERE RmNmbr=" + strRoomNumber, con);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        DateTime result = reader.GetDateTime(0);
+                        reader.Close();
+                        return result;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nothing to read when running SQLGetTimeIn");
+                        reader.Close();
+                        return DateTime.Now;
+                    }
+                }
+            }
+
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error in SQLGetTimeIn");
+                Console.WriteLine(ex.ToString());
+                return DateTime.Now;
+            }
+        }
+
         
         public static void UpdateHouseKeepingStatus(string strRoomNumber, string strStatus)
         {
@@ -142,7 +174,7 @@ namespace CasaSurface
             {
                 SqlConnection con = new SqlConnection(m_strDbConnectionString);
                 con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeIn= '" + strTimeIn +  "' WHERE RmNmbr=" + strRoomNumber, con);//Updates the TimeIn field to the current time in DB: CasaDatabase --> Table: CleaningRoom
+                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeIn= '" + strTimeIn +  "' WHERE RmNmbr=" + strRoomNumber, con);//Updates the TimeIn field to the current time in DB: CasaDatabase --> Table: RoomCleaning
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -160,7 +192,7 @@ namespace CasaSurface
             {
                 SqlConnection con = new SqlConnection(m_strDbConnectionString);
                 con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeOut= '"+ strTimeOut + "' WHERE RmNmbr=" + strRoomNumber, con); //Updates the TimeOut field to the current time in DB: CasaDatabase --> Table: CleaningRoom
+                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeOut= '"+ strTimeOut + "' WHERE RmNmbr=" + strRoomNumber, con); //Updates the TimeOut field to the current time in DB: CasaDatabase --> Table: RoomCleaning
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -195,7 +227,7 @@ namespace CasaSurface
             {
                 SqlConnection con = new SqlConnection(m_strDbConnectionString);
                 con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeInAsStr= '" + strTimeInAsString + "' WHERE RmNmbr=" + strRoomNumber, con);//Updates the TimeOutAsStr field to the current time in DB: CasaDatabase --> Table: CleaningRoom
+                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeInAsStr= '" + strTimeInAsString + "' WHERE RmNmbr=" + strRoomNumber, con);//Updates the TimeOutAsStr field to the current time in DB: CasaDatabase --> Table: RoomCleaning
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -213,7 +245,7 @@ namespace CasaSurface
             {
                 SqlConnection con = new SqlConnection(m_strDbConnectionString);
                 con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeOutAsStr= '" + strTimeOutAsStr + "' WHERE RmNmbr=" + strRoomNumber, con);//Updates the TimeInAsStr field to the current time in DB: CasaDatabase --> Table: CleaningRoom
+                SqlCommand cmd = new SqlCommand("UPDATE RoomCleaning SET TimeOutAsStr= '" + strTimeOutAsStr + "' WHERE RmNmbr=" + strRoomNumber, con);//Updates the TimeInAsStr field to the current time in DB: CasaDatabase --> Table: RoomCleaning
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -230,10 +262,11 @@ namespace CasaSurface
             try
             {
                 TimeSpan tsTimeDiff = dtTimeOut - dtTimeIn;
-                
+                double dlTimeDiff = tsTimeDiff.TotalMinutes;
+                double dlResult = Math.Round(dlTimeDiff, 2);
                 SqlConnection con = new SqlConnection(m_strDbConnectionString);
                 con.Open();
-                SqlCommand cmd = new SqlCommand("Update RoomCleaning SET ElapsedTime=" + tsTimeDiff + " WHERE RmNmbr=" + strRoomNumber, con);
+                SqlCommand cmd = new SqlCommand("Update RoomCleaning SET ElapsedTime=" + dlResult + " WHERE RmNmbr=" + strRoomNumber, con);
                 Console.WriteLine(tsTimeDiff);
                 cmd.ExecuteNonQuery();
                 

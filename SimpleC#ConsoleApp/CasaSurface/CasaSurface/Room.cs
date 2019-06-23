@@ -42,11 +42,11 @@ namespace CasaSurface
             Console.WriteLine("Cleaning is In progress");
             
             //Database calls
-            SQLCommands.UpdateBeginCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus); //updates the database field of CleaningInProgress to 1 and RoomCLeanStatus to 0
+            SQLCommands.UpdateBeginCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus); //updates the database field of CleaningInProgress to 1 and RoomCLeanStatus to 0 in DB: CasaDatabase --> Table: Rooms
             SQLCommands.UpdateHouseKeepingStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates HousekeepingStatus field to 'NotClean' in DB: Casadatabase --> Table: Rooms
-            SQLCommands.UpdateTimeIn(strRoomNumber, strCurrentDate);////updates TimeIn field to current time including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
+            SQLCommands.UpdateTimeIn(strRoomNumber, strCurrentDate);////updates TimeIn field to current time including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
             SQLCommands.UpdateHouseKeeper(m_strRoomNumber, m_strHskprName);//updates the HskprName field to what is selected in the beginning of the program in DB: CasaDatabase --> Table: Rooms
-            SQLCommands.UpdateTimeInAsStr(strRoomNumber, strCurrentDateAsString);//updates TimInAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
+            SQLCommands.UpdateTimeInAsStr(strRoomNumber, strCurrentDateAsString);//updates TimInAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
         }
 
 
@@ -55,6 +55,7 @@ namespace CasaSurface
             DateTime CurrentDate;
             CurrentDate = DateTime.Now;
 
+            this.m_dtTimeIn = SQLCommands.SQLGetTimeIn(this.m_strRoomNumber);//Probably Not the best way of doing this! It's pulling the TimeIn value from the database, not from the room object itself. This is due to the way the while loop in the main class works.
             this.m_dtTimeOut = CurrentDate; //Stores the DateTime in this Room object instance
             this.m_nCleaningInProgress = 0;
             this.m_nRoomCleanStatus = 1;
@@ -65,20 +66,12 @@ namespace CasaSurface
             Console.WriteLine(strCurrentDate);
             Console.WriteLine("Room has finished being cleaned.");
 
-
-            //TimeSpanTest - Attempting to get number of minutes 
-            //--------------------------------------------------------------
-            TimeSpan tsTimeSpanTest = m_dtTimeOut.Subtract(m_dtTimeOut);    
-            Console.WriteLine(tsTimeSpanTest.Seconds);
-            //--------------------------------------------------------------
-
-
             //Database Call
             SQLCommands.UpdateFinishCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus);
             SQLCommands.UpdateHouseKeepingStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates HousekeepingStatus field to 'Clean' in DB: Casadatabase --> Table: Rooms
-            SQLCommands.UpdateTimeOut(strRoomNumber, strCurrentDate);//updates TimeOut field to current time including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
-            SQLCommands.UpdateTimeOutAsStr(strRoomNumber, strCurrentDateAsString);//updates TimeOutAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: CleaningRoom
-            //SQLCommands.UpdateElapsedTime(strRoomNumber, m_dtTimeIn, m_dtTimeOut);
+            SQLCommands.UpdateTimeOut(strRoomNumber, strCurrentDate);//updates TimeOut field to current time including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
+            SQLCommands.UpdateTimeOutAsStr(strRoomNumber, strCurrentDateAsString);//updates TimeOutAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
+            SQLCommands.UpdateElapsedTime(strRoomNumber, this.m_dtTimeIn, this.m_dtTimeOut);//Updates the ElapsedTime field in DB: Casadatabase --> Table: RoomCleaning
 
         }
 
