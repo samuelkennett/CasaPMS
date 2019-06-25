@@ -88,8 +88,9 @@ namespace CasaSurface
                 }
 
 
-                Console.WriteLine("Press 1 to begin cleaning");
-                Console.WriteLine("Press 2 to finish cleaning");
+                Console.WriteLine("Press 1 to begin cleaning.");
+                Console.WriteLine("Press 2 to finish cleaning.");
+                Console.WriteLine("Press 3 to revert room back to Not Clean and No Cleaning In Progress.");
                 Console.WriteLine();
                 string input2 = Console.ReadLine();
                 int response2 = Convert.ToInt32(input2);
@@ -99,41 +100,77 @@ namespace CasaSurface
                     case 1:
 
                         Console.WriteLine("Begin room clean.");
-                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 0)
+                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 0 && SQLCommands.SQLGetInspectionFlag(room.GetRoomNumber()) == 0)
                         {
-                            
                             room.beginCleaning(room.m_strRoomNumber);
                             Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
                         }
-                        else
+                        else if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 1 && SQLCommands.SQLGetInspectionFlag(room.GetRoomNumber()) == 0)
                         {
                             room.SetStatus("'NotClean'");
                             Console.WriteLine("Room has already begun to be cleaned.");
                             Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
+                            Console.WriteLine("------------");                          
+                        }
+                        else if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 0 && SQLCommands.SQLGetInspectionFlag(room.GetRoomNumber()) == 1)
+                        {
+                            Console.WriteLine("Room has already been cleaned");
+                            Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
+                        }
+                        else if (SQLCommands.SQLImposibilityCheck(room.GetRoomNumber()) == 1)
+                        {
+                            Console.WriteLine("ERROR! CleaningInProgressFlag=1 and InspectionFLag=1");
+                            Console.WriteLine("Reverting Status.");
+                            SQLCommands.SQLRevert(room.GetRoomNumber());
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unknown ERROR in Switch --> Begin Room CLean");
                             break;
                         }
                         break;
 
                     case 2:
+
                         Console.WriteLine("Finish cleaning room.");
-                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 1)
+                        Console.WriteLine("---------------------");
+                        if(SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 1 && SQLCommands.SQLGetInspectionFlag(room.GetRoomNumber()) == 0)
                         {                           
                             room.finishCleaning(room.m_strRoomNumber);
+                            Console.WriteLine("Room has finshed being cleaned.");
                             Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
                         }
-                        else
+                        if (SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 0 && SQLCommands.SQLGetInspectionFlag(room.GetRoomNumber()) == 0)
                         {
-                            room.SetStatus("'Clean'");
-                            Console.WriteLine("Room has already been cleaned");
+                            Console.WriteLine("Room has not begun to be cleaned yet. Please begin to clean room.");
                             Console.WriteLine("Current status: " + room.GetHouseKeepingStatus());
                             Console.WriteLine("------------");
+                        }
+                        else if (SQLCommands.SQLGetCleaningInProgress(room.GetRoomNumber()) == 0 && SQLCommands.SQLGetInspectionFlag(room.GetRoomNumber()) == 1)
+                        {
+                            Console.WriteLine("Room has already been cleaned");
+                        }
+                        else if (SQLCommands.SQLImposibilityCheck(room.GetRoomNumber()) == 1)
+                        {
+                            Console.WriteLine("ERROR! CleaningInProgressFlag=1 and InspectionFLag=1");
+                            Console.WriteLine("Reverting Status.");
+                            SQLCommands.SQLRevert(room.GetRoomNumber());
+                        }
+                        else
+                        {                          
+                            Console.WriteLine("Unknown ERROR in Switch --> Finish Cleaning Room");
                             break;
                         }
                         break;
 
+                    case 3:
+
+                        Console.WriteLine("Reverting Room.");
+                        SQLCommands.SQLRevert(room.GetRoomNumber());
+                        break;
                 }
 
                 Console.WriteLine("Continue? 0 for yes 9 for no.");
@@ -142,5 +179,7 @@ namespace CasaSurface
             }
 
         }
+
+
     }
 }

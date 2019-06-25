@@ -66,13 +66,18 @@ namespace CasaSurface
             Console.WriteLine(strCurrentDate);
             Console.WriteLine("Room has finished being cleaned.");
 
-            //Database Call
+            //Database Calls
             SQLCommands.UpdateFinishCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus);
             SQLCommands.UpdateHouseKeepingStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates HousekeepingStatus field to 'Clean' in DB: Casadatabase --> Table: Rooms
             SQLCommands.UpdateTimeOut(strRoomNumber, strCurrentDate);//updates TimeOut field to current time including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
             SQLCommands.UpdateTimeOutAsStr(strRoomNumber, strCurrentDateAsString);//updates TimeOutAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
             SQLCommands.UpdateElapsedTime(strRoomNumber, this.m_dtTimeIn, this.m_dtTimeOut);//Updates the ElapsedTime field in DB: Casadatabase --> Table: RoomCleaning
-
+            SQLCommands.SetRoomAttendant(strRoomNumber);
+            //Imposibility Check
+            if (SQLCommands.SQLImposibilityCheck(strRoomNumber) == 1)
+            {
+                SQLCommands.SQLRevert(strRoomNumber);
+            }
         }
 
         public string GetRoomNumber()

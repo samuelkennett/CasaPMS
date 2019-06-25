@@ -12,34 +12,6 @@ namespace CasaSurface
         //database connection string for Sam-PC, this is my local server, Initial Catalog is the Database, Integrated Security is supposed to require permission when altering a database but does nothing right now.
         public const string m_strDbConnectionString = "Data Source=Sam-PC; Initial Catalog = CasaDatabase; Integrated Security=SSPI"; 
                                                                                                                                 
-        public const SqlDataReader rdr = null;
-
-        public static void SelectAllRooms() //Just a test funtion to ensure that data is properly pulled from the Database
-        {
-            try
-            {
-
-                SqlConnection con = new SqlConnection(m_strDbConnectionString);
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select roomNumber from Room", con);
-                SqlDataReader rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
-                {
-                    Console.WriteLine(rdr[0]);
-                }
-                con.Close();
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error");
-            }
-            
-            
-
-        }
-
         public static void UpdateBeginCleaning(string strRoomNumber, int intCleaningInProgressFlag, int nRoomCleanStatus)
         {
             try
@@ -101,6 +73,7 @@ namespace CasaSurface
                     else //Error Handling Required HERE!
                     {
                         reader.Close();
+                        Console.WriteLine("No value to read: SQLGetCleaningInProgress");
                         return -1;
                     }
                     
@@ -111,7 +84,45 @@ namespace CasaSurface
 
             catch (Exception ex)
             {
-                Console.WriteLine("SQL Command Error!");
+                Console.WriteLine("SQL Command Error in SQLGetCleaningInProgress!");
+                Console.WriteLine(ex.ToString());
+                return -1;
+            }
+
+        }
+
+        public static int SQLGetInspectionFlag(string strRoomNumber) //Retrieves a InspectionFlag value from DB: CasaDatabase --> Table: Rooms
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(m_strDbConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT InspectionFlag FROM Rooms WHERE roomNumber =" + strRoomNumber, con);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        int result = reader.GetInt16(0);// reads a smallint value, i.e. GetInt16 instead of GetInt32
+                        reader.Close();
+                        return result;
+
+
+                    }
+                    else //Error Handling Required HERE!
+                    {
+                        reader.Close();
+                        Console.WriteLine("No value to read: SQLGetInspectionFlag");
+                        return -1;
+                    }
+
+
+                }
+                con.Close();
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("SQL Command Error in SQLGetInspectionFlag!");
                 Console.WriteLine(ex.ToString());
                 return -1;
             }
@@ -269,7 +280,6 @@ namespace CasaSurface
                 SqlCommand cmd = new SqlCommand("Update RoomCleaning SET ElapsedTime=" + dlResult + " WHERE RmNmbr=" + strRoomNumber, con);
                 Console.WriteLine(tsTimeDiff);
                 cmd.ExecuteNonQuery();
-                
                 con.Close();
             }
 
@@ -280,7 +290,103 @@ namespace CasaSurface
             }
         }
 
-    }
+        public static void SetRoomAttendant(string strRoomNumber)
+        {
+            SqlConnection con = new SqlConnection(m_strDbConnectionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand("SELECT HskprName FROM Rooms WHERE RoomNumber=" + strRoomNumber, con);
+            using(SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    string strRoomAttendant = reader.GetString(0);
+                    reader.Close();
+                    SqlCommand cmd2 = new SqlCommand("UPDATE RoomCleaning SET RoomAttendant= '" + strRoomAttendant + "' WHERE RmNmbr=" + strRoomNumber, con);
+                    cmd2.ExecuteNonQuery(); 
+                }
+                else
+                {
+                    Console.WriteLine("Nothing to read when trying SetRoomAttendant");
+                    reader.Close();
+                }
+                
+            }
+        }
 
+        public static int SQLImposibilityCheck(string roomNumber)//Checks to see if RoomCleaningFlag = 1 and InspectionFlag = 1. 
+        {
+            SqlConnection con = new SqlConnection(m_strDbConnectionString);
+            con.Open();
+            int nCleaningInProgressFlag = -1;
+            int nInspectionFlag = -1;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT CleaningInProgressFlag FROM Rooms WHERE RoomNumber=" + roomNumber, con);
+                SqlCommand cmd2 = new SqlCommand("SELECT InspectionFlag FROM Rooms WHERE RoomNumber=" + roomNumber, con);
+                using(SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        nCleaningInProgressFlag = reader.GetInt16(0);
+                        reader.Close();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nothing to read in SQLImposibilityCheck --> CleaningInProgressFlag");
+                        return -1;
+                    }
+                }
+                using(SqlDataReader reader = cmd2.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        nInspectionFlag = reader.GetInt16(0);
+                        reader.Close();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nothing to read in SQLImposibilityCheck --> InspectionFlag");
+                        return -1;
+                    }
+
+                }
+
+                if(nCleaningInProgressFlag == 1 && nInspectionFlag == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in SQLImposibilityCheck");
+                Console.WriteLine(ex.ToString());
+                return -1;
+            }
+            
+        }
+        public static void SQLRevert(string strRoomNumber)// Reverts the CleaningInProgressFlag and InspectionFlag to 0.
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(m_strDbConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("UPDATE Rooms SET CleaningInProgressFlag=0 WHERE RoomNumber =" + strRoomNumber, con);
+                cmd.ExecuteNonQuery();
+                SqlCommand cmd2 = new SqlCommand("UPDATE Rooms SET InspectionFlag = 0 WHERE RoomNumber = " + strRoomNumber, con);
+                cmd2.ExecuteNonQuery();
+                con.Close();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error at SQLRevert");
+                Console.WriteLine(ex.ToString());
+            }
+        }
+    }
 }
 
