@@ -24,3 +24,7 @@ ToDo's
 --------------------------------------------------------------------------------------------------------------------------
 6/22/19
 - Finish Implementing UpdateTimeInAsString and UpdateTimeOutAsString database calls
+--------------------------------------------------------------------------------------------------------------------------
+6/28/19
+- Implement data structure for UserNames.
+- Implement database commands for UserNames.
