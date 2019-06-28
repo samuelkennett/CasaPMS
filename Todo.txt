@@ -28,3 +28,4 @@ ToDo's
 6/28/19
 - Implement data structure for UserNames.
 - Implement database commands for UserNames.
+- Compartmentalize the SQLCommands class because its getting too big.
