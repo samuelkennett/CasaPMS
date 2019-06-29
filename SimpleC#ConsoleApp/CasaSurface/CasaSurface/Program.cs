@@ -18,10 +18,15 @@ namespace CasaSurface
             Console.WriteLine("Begin");
             Console.WriteLine("-------------");
             Console.WriteLine("Please select which housekeeper you are:");
-            Console.WriteLine("1. Sam");
-            Console.WriteLine("2. Ed");
-            Console.WriteLine("3. Wade");
-
+            
+            UserNames unsUserNames = new UserNames();
+            foreach(var item in unsUserNames.GetUserNames())
+            {
+                Console.WriteLine(item.GetFirstName());
+                Console.WriteLine(item.GetLastName());
+            }
+            
+            
             string strCurrentHskpr = null ;
             string strHskprSelect = Console.ReadLine();
             int nHskprSelect = Convert.ToInt32(strHskprSelect);//convert string to int for switch statement
@@ -127,7 +132,7 @@ namespace CasaSurface
                         }
                         else
                         {
-                            Console.WriteLine("Unknown ERROR in Switch --> Begin Room CLean");
+                            Console.WriteLine("Unknown ERROR in Switch --> Begin Room Clean");
                             break;
                         }
                         break;

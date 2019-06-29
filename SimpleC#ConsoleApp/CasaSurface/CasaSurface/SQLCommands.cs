@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data;
+
 
 namespace CasaSurface
 {
@@ -11,7 +13,8 @@ namespace CasaSurface
     {
         //database connection string for Sam-PC, this is my local server, Initial Catalog is the Database, Integrated Security is supposed to require permission when altering a database but does nothing right now.
         public const string m_strDbConnectionString = "Data Source=Sam-PC; Initial Catalog = CasaDatabase; Integrated Security=SSPI"; 
-                                                                                                                                
+        public const string m_strDbConnectionStringToMgmtSysConfig = "Data Source=Sam-PC; Initial Catalog = MgmtSysConfig; Integrated Security=SSPI; MultipleActiveResultSets=true";
+
         public static void UpdateBeginCleaning(string strRoomNumber, int intCleaningInProgressFlag, int nRoomCleanStatus)
         {
             try
@@ -386,6 +389,96 @@ namespace CasaSurface
                 Console.WriteLine("Error at SQLRevert");
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        /*public static List<UserName> SQLCreateUserNames()
+        {
+            try
+            {
+                string strFirstName = null;
+                string strLastName = null;
+                int nEmployeeID = -1;
+                List<UserName> lUserList = new List<UserName>();
+
+                SqlConnection con = new SqlConnection(m_strDbConnectionStringToMgmtSysConfig);
+                con.Open();
+                SqlCommand loop = new SqlCommand("SELECT * FROM RoomAttendants", con);
+                SqlCommand cmd = new SqlCommand("SELECT FirstName FROM RoomAttendants WHERE Active = 1 AND FloorAttendant = 1", con);
+                SqlCommand cmd2 = new SqlCommand("SELECT LastName FROM RoomAttendants WHERE Active = 1 AND FloorAttendant = 1", con);
+                SqlCommand cmd3 = new SqlCommand("SELECT EmployeeID FROM RoomAttendants WHERE Active = 1 AND FloorAttendant = 1", con);
+
+             
+                  using (SqlDataReader reader = cmd.ExecuteReader())
+                  {
+                        if (reader.Read())
+                        {
+                             strFirstName = reader.GetString(0);
+                            reader.Close();
+                        }
+                        else
+                        {
+                             Console.WriteLine("Nothing to reader when trying to get FirstName from RoomAttendants.");
+                            reader.Close();
+                        }
+                        reader.Close();
+                  }
+                  using (SqlDataReader reader = cmd2.ExecuteReader())
+                  {
+                        if (reader.Read())
+                        {
+                            strLastName = reader.GetString(0);
+                            reader.Close();
+                        }
+                        else
+                        {
+                             Console.WriteLine("Nothing to read when trying LastName name from RoomAttendants.");
+                             reader.Close();
+                        }
+                  }
+                  using (SqlDataReader reader = cmd3.ExecuteReader())
+                  {
+                        if (reader.Read())
+                        {
+                                nEmployeeID = reader.GetInt16(0);
+                                reader.Close();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nothing to read when trying to get EmployeeID from RoomAttendants.");
+                                reader.Close();
+                            }
+                            reader.Close();
+                  }                      
+                        UserName user = new UserName(strFirstName, strLastName, nEmployeeID);
+                        lUserList.Add(user);
+                        return lUserList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in SQLCreateUserNames");
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+        }*/
+
+        public static List<UserName> SQLCreateUsers()//Clones the Database table RoomAttendants and creates a new UserName object for each Row where Active = 1 and FloorAttendant = 1.
+        {
+            SqlConnection con = new SqlConnection(m_strDbConnectionStringToMgmtSysConfig);
+            con.Open();
+            List<UserName> lUserList = new List<UserName>(); //creates an empty list if UserName objects.
+            SqlCommand cmd = new SqlCommand("SELECT * FROM RoomAttendants WHERE Active = 1 AND FloorAttendant = 1", con);// Queries all rows and columns in RoomAttendants.
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();//Creates a new DataTable 
+            da.Fill(dt);//Fills it with the data that is specified in the query. In This case its the entire table.
+            foreach(DataRow dr in dt.Rows)
+            {
+                if(dr["Active"].ToString() == "1" && dr["FloorAttendant"].ToString() == "1")//specifies the paramters for which rows should be pulled
+                {
+                    UserName user = new UserName(dr["FirstName"].ToString(), dr["LastName"].ToString(), dr["EmployeeId"].ToString());//Creates a new user object.
+                    lUserList.Add(user);//adds the UserName object to the list.
+                }
+            }
+            return lUserList;//returns the list.
         }
     }
 }
