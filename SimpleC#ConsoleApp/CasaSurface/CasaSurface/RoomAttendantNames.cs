@@ -8,27 +8,27 @@ using System.Data.SqlClient;
 
 namespace CasaSurface
 {
-    public class UserNames
+    public class RoomAttendantNames
     {
-        List<UserName> m_unUserNames;
+        List<RoomAttendantName>     m_unUserNames;
         
-         public UserNames()
+         public RoomAttendantNames()
         {
-            List<UserName> userNames = this.m_unUserNames;
+            List<RoomAttendantName> userNames = this.m_unUserNames;
             CreateUserNames();
         }
         
-        private void SetUserNames(List<UserName> unUserNames)
+        private void SetUserNames(List<RoomAttendantName> unUserNames)
         {
             this.m_unUserNames = unUserNames;
         }
         private void CreateUserNames()
         {
-            List<UserName> lUserName = SQLCommands.SQLCreateUsers();//Creates a list from what is returned from the SQLCreateUsers method.
+            List<RoomAttendantName> lUserName = SQLCommands.SQLCreateUsers();//Creates a list from what is returned from the SQLCreateUsers method.
             SetUserNames(lUserName);//Sets it to the class member.
         }
 
-         public List<UserName> GetUserNames()
+         public List<RoomAttendantName> GetUserNames()
         {
             return this.m_unUserNames;
         }

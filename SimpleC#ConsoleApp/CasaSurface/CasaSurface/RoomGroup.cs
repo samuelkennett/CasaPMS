@@ -10,32 +10,41 @@ namespace CasaSurface
 {
     public class RoomGroup
     {
+        string                              m_strGroupID;
+        List<string>                        m_lRmNmbrs;
 
-        Dictionary<string, List<Room>> m_dRoomGroup;
-
-        public RoomGroup()
+        public RoomGroup(string strGroupID)
         {
-            InitializeRoomGroup();
+            InitializeRoomGroup(strGroupID);
         }
 
-        public void InitializeRoomGroup()
+        public void InitializeRoomGroup(string strGoupID)
         {
-            Dictionary<string, List<Room>> dRoomGroup = new Dictionary<string, List<Room>>();
-            FirstFloor flFirstFloor = new FirstFloor();//Initializes First Floor rooms
-            SecondFloor flSecondFloor = new SecondFloor();//Initializes Second Floor rooms
-            dRoomGroup.Add(flFirstFloor.GetGroupID(), flFirstFloor.GetRooms());//maps GroupID "1st Floor" to the list of rooms in FirstFloor class
-            dRoomGroup.Add(flSecondFloor.GetGroupID(), flSecondFloor.GetRooms());//maps GroupID "2nd Floor" to the list of rooms in FirstFloor class
-            SetRoomGroup(dRoomGroup);
+            string strConnectionString = "Data Source=Sam-PC; Initial Catalog = MgmtSysConfig; Integrated Security=SSPI; MultipleActiveResultSets=true";
+            string strQuery = "SELECT RmNmbr FROM RmGrpsDtl WHERE GroupID=" + "'" + strGoupID + "'";//creates sql query based on which GroupID is passed.
+            List<string> strRmGrps;
+            strRmGrps = SQLCommands.GetRmGrpDtl(strQuery, strConnectionString, strGoupID);//Gets a list of room numbers (string).          
+            SetRmNmbr(strRmGrps);//sets the list of room numbers to the class variable.
+            SetGroupID(strGoupID);//sets the GroupID to the class variable.
         }
 
-        public void SetRoomGroup(Dictionary<string, List<Room>> dRoomGroup)
+        public void SetRmNmbr(List<string> strRmNmbr)
         {
-            this.m_dRoomGroup = dRoomGroup;
+            this.m_lRmNmbrs = strRmNmbr;
+        }
+        public List<string> GetRmNmbrs()
+        {
+            return this.m_lRmNmbrs;
         }
 
-        public Dictionary<string, List<Room>> GetRoomGroupDictionary()//Dictionary that is accessible from the main class.
+        public void SetGroupID(string strGroupID)
         {
-            return this.m_dRoomGroup;
+            this.m_strGroupID = strGroupID;
+        }
+
+        public string GetGroupID()
+        {
+            return this.m_strGroupID;
         }
     } 
 }

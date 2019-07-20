@@ -1,23 +1,26 @@
 ﻿namespace CasaSurface
 {
-    public class UserName
+    public class RoomAttendantName
     {
-        string m_strFirstName;
-        string m_strLastName;
-        string m_nEmployeeID;
+        string      m_strFirstName;
+        string      m_strLastName;
+        string      m_nEmployeeID;
+        string      m_strUserName;
 
-        public UserName()
+        public RoomAttendantName()
         {
             string strFirstName = this.m_strFirstName;
             string strLastName = this.m_strLastName;
             string nEmployeeID = this.m_nEmployeeID;
+            string strUserName =  this.m_strUserName;
         }
 
-        public UserName(string strFirstName, string strLastName, string nEmployeeID)//Explicit Constructor for testing.
+        public RoomAttendantName(string strFirstName, string strLastName, string nEmployeeID, string strUserName)//Explicit Constructor for testing.
         {
             m_strFirstName = strFirstName;
             m_strLastName = strLastName;
             m_nEmployeeID = nEmployeeID;
+            m_strUserName = strUserName;
         }
         public string GetFirstName()
         {
@@ -47,6 +50,16 @@
         public void SetEmployeeID(string nEmployeeID)
         {
             this.m_nEmployeeID = nEmployeeID;
+        }
+
+        public string GetUserName()
+        {
+            return this.m_strUserName;
+        }
+
+        public void SetUserName(string strUserName)
+        {
+            this.m_strUserName = strUserName;
         }
     }
 }

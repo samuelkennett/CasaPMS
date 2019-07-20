@@ -18,8 +18,35 @@ namespace CasaSurface
             Console.WriteLine("Begin");
             Console.WriteLine("-------------");
             Console.WriteLine("Please select which housekeeper you are:");
-            
-            UserNames unsUserNames = new UserNames();
+
+            //Create RoomAttendentNames
+            RoomAttendantNames unsUserNames = new RoomAttendantNames();
+
+            //Create RoomGroups
+            RoomGroups roomGroups = new RoomGroups();
+            RoomGroup FirstFloor = new RoomGroup("1st Floor");
+            RoomGroup SecondFloor = new RoomGroup("2nd Floor");
+            RoomGroup ThirdFloor = new RoomGroup("3rd Floor");
+            RoomGroup FourthFloor = new RoomGroup("4th Floor");
+            RoomGroup FifthFloor = new RoomGroup("5th Floor");
+            roomGroups.AddToRoomGroupDictionary(FirstFloor.GetGroupID(), FirstFloor.GetRmNmbrs());
+            roomGroups.AddToRoomGroupDictionary(SecondFloor.GetGroupID(), SecondFloor.GetRmNmbrs());
+            roomGroups.AddToRoomGroupDictionary(ThirdFloor.GetGroupID(), ThirdFloor.GetRmNmbrs());
+            roomGroups.AddToRoomGroupDictionary(FourthFloor.GetGroupID(), FourthFloor.GetRmNmbrs());
+            roomGroups.AddToRoomGroupDictionary(FifthFloor.GetGroupID(), FifthFloor.GetRmNmbrs());
+
+            //prints out the key and the room number from the list of rooms in the FirstFloor and SecondFloor classes.
+            foreach (KeyValuePair<string, List<string>> item in roomGroups.GetRoomGroupsDictionary())
+            {
+                foreach(var strRmNumbr in item.Value)
+                {
+                    Console.WriteLine("Key: {0}, Value: {1}", item.Key, strRmNumbr.ToString());
+                }            
+            }
+
+
+
+            //prints out the First and Last names of RoomAttendents.
             foreach(var item in unsUserNames.GetUserNames())
             {
                 Console.WriteLine(item.GetFirstName());
