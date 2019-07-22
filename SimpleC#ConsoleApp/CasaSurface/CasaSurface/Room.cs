@@ -6,19 +6,30 @@ using System.Threading.Tasks;
 
 namespace CasaSurface
 {
-    class Room
+    public class Room
     {
-        public string m_strRoomNumber;  
-        public string m_strHouseKeepingStatus;
-        int m_nCleaningInProgress;
-        int m_nRoomCleanStatus;
-        string m_strHskprName;
-        DateTime m_dtTimeIn;
-        DateTime m_dtTimeOut;
+        public string   m_strRoomNumber;  
+        public string   m_strHouseKeepingStatus;
+        int             m_nCleaningInProgress;
+        int             m_nRoomCleanStatus;
+        string          m_strHskprName;
+        DateTime        m_dtTimeIn;
+        DateTime        m_dtTimeOut;
 
         public Room()
         {
             string strRoomNumber = this.m_strRoomNumber;
+            string strStatus = this.m_strHouseKeepingStatus;
+            int nCleaningInProgress = this.m_nCleaningInProgress;
+            int nRoomCleanStatus = this.m_nRoomCleanStatus;
+            string m_strHskprName = this.m_strHskprName;
+            DateTime dtTimeIn = this.m_dtTimeIn;
+            DateTime dtTimeOut = this.m_dtTimeOut;
+        }
+
+        public Room(string strRoomNumber)
+        {
+            this.m_strRoomNumber = strRoomNumber;
             string strStatus = this.m_strHouseKeepingStatus;
             int nCleaningInProgress = this.m_nCleaningInProgress;
             int nRoomCleanStatus = this.m_nRoomCleanStatus;
@@ -35,18 +46,28 @@ namespace CasaSurface
             this.m_nCleaningInProgress = 1;
             this.m_nRoomCleanStatus = 0;
             this.m_strHouseKeepingStatus = "'NotClean'";
-            string strCurrentDate = CurrentDate.ToString("yyyy-MM-dd HH:mm:ss.fff");//formats DateTime object CurrentDate for SQL Query
+            DateTime strCurrentDate = CurrentDate;//formats DateTime object CurrentDate for SQL Query
             string strCurrentDateAsString = CurrentDate.ToString("HH:mm: tt");
 
             Console.WriteLine(strCurrentDate);
             Console.WriteLine("Cleaning is In progress");
-            
-            //Database calls
-            SQLCommands.UpdateBeginCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus); //updates the database field of CleaningInProgress to 1 and RoomCLeanStatus to 0 in DB: CasaDatabase --> Table: Rooms
-            SQLCommands.UpdateHouseKeepingStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates HousekeepingStatus field to 'NotClean' in DB: Casadatabase --> Table: Rooms
-            SQLCommands.UpdateTimeIn(strRoomNumber, strCurrentDate);////updates TimeIn field to current time including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
-            SQLCommands.UpdateHouseKeeper(m_strRoomNumber, m_strHskprName);//updates the HskprName field to what is selected in the beginning of the program in DB: CasaDatabase --> Table: Rooms
-            SQLCommands.UpdateTimeInAsStr(strRoomNumber, strCurrentDateAsString);//updates TimInAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
+
+            //Database Connection String
+            string strCasaDatabaseConnectionString = "Data Source=Sam-PC; Initial Catalog = CasaDatabase; Integrated Security=SSPI";
+            //SQL Queries
+            string strUpdateCleaningInProgressFlagQuery = "UPDATE Rooms SET CleaningInProgressFlag=" + this.m_nCleaningInProgress + " WHERE RoomNumber=" + strRoomNumber;
+            string strUpdateHousekeepingStatusQuery = "UPDATE Rooms SET HousekeepingStatus=" + this.m_strHouseKeepingStatus + " WHERE RoomNumber=" + strRoomNumber;
+            string strUpdateInspectionFlagQuery = "UPDATE Rooms SET InspectionFlag = 0 WHERE RoomNumber = " + strRoomNumber;
+            string strUpdateTimeInQuery = "UPDATE RoomCleaning SET TimeIn= CONVERT(datetime,'" + strCurrentDate + "', 0) WHERE RmNmbr=" + strRoomNumber;
+            string strUpdateTimeInAsStringQuery = "UPDATE RoomCleaning SET TimeInAsStr = '" + strCurrentDateAsString + "' WHERE RmNmbr = " + strRoomNumber;
+            string strUpdateHouseKeeper = "UPDATE Rooms SET HskprName = " + this.m_strHskprName + " WHERE RoomNumber = " + strRoomNumber;
+            //Database calls (refactored)
+            SQLCommands.Update(strUpdateCleaningInProgressFlagQuery, strCasaDatabaseConnectionString);//Updates CleaningInProgressFlag in DB: CasaDatabase --> Table: Rooms
+            SQLCommands.Update(strUpdateHousekeepingStatusQuery, strCasaDatabaseConnectionString);//Updates HouskeepingStatus in DB: CasaDatabase --> Table: Rooms
+            SQLCommands.Update(strUpdateInspectionFlagQuery, strCasaDatabaseConnectionString);//Updates InspectionFlag in DB: CasaDatabase --> Table: Rooms
+            SQLCommands.Update(strUpdateTimeInQuery, strCasaDatabaseConnectionString);//Updates TimeIn in DB: CasaDatabase --> Table: RoomCleaning
+            SQLCommands.Update(strUpdateTimeInAsStringQuery, strCasaDatabaseConnectionString);//Updates TimeInAsStr in DB: CasaDatabase --> Table: RoomCleaning
+            SQLCommands.Update(strUpdateHouseKeeper, strCasaDatabaseConnectionString);//Updates HskprName in DB: CasaDatabase --> Table: Rooms
         }
 
 
@@ -66,19 +87,35 @@ namespace CasaSurface
             Console.WriteLine(strCurrentDate);
             Console.WriteLine("Room has finished being cleaned.");
 
-            //Database Calls
-            SQLCommands.UpdateFinishCleaning(strRoomNumber, m_nCleaningInProgress, m_nRoomCleanStatus);
-            SQLCommands.UpdateHouseKeepingStatus(strRoomNumber, this.m_strHouseKeepingStatus);//updates HousekeepingStatus field to 'Clean' in DB: Casadatabase --> Table: Rooms
-            SQLCommands.UpdateTimeOut(strRoomNumber, strCurrentDate);//updates TimeOut field to current time including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
-            SQLCommands.UpdateTimeOutAsStr(strRoomNumber, strCurrentDateAsString);//updates TimeOutAsStr field to current time NOT including Day/Month/Year in DB: CasaDatabase --> Table: RoomCleaning
+            //Database Connection String
+            string strCasaDatabaseConnectionString = "Data Source=Sam-PC; Initial Catalog = CasaDatabase; Integrated Security=SSPI";
+
+            //SQL Queries
+            string strUpdateCleaningInProgressFlagQuery = "UPDATE Rooms SET CleaningInProgressFlag=" + this.m_nCleaningInProgress + " WHERE RoomNumber=" + strRoomNumber;
+            string strUpdateHousekeepingStatusQuery = "UPDATE Rooms SET HousekeepingStatus=" + this.m_strHouseKeepingStatus + " WHERE RoomNumber=" + strRoomNumber;
+            string strUpdateInspectionFlagQuery = "UPDATE Rooms SET InspectionFlag = 1 WHERE RoomNumber = " + strRoomNumber;
+            string strUpdateTimeOutQuery = "UPDATE RoomCleaning SET TimeOut= CONVERT(datetime,'" + strCurrentDate + "', 0) WHERE RmNmbr=" + strRoomNumber;
+            string strUpdateTimeOutAsStringQuery = "UPDATE RoomCleaning SET TimeOutAsStr = '" + strCurrentDateAsString + "' WHERE RmNmbr = " + strRoomNumber;
+            string strUpdateHouseKeeper = "UPDATE Rooms SET HskprName = " + this.m_strHskprName + " WHERE RoomNumber = " + strRoomNumber;
+
+            //Database Calls (refactored)
+            SQLCommands.Update(strUpdateCleaningInProgressFlagQuery, strCasaDatabaseConnectionString);//Updates CleaningInProgressFlag in DB: CasaDatabase --> Table: Rooms
+            SQLCommands.Update(strUpdateHousekeepingStatusQuery, strCasaDatabaseConnectionString);//Updates HouskeepingStatus in DB: CasaDatabase --> Table: Rooms
+            SQLCommands.Update(strUpdateInspectionFlagQuery, strCasaDatabaseConnectionString);//Updates InspectionFlag in DB: CasaDatabase --> Table: Rooms
+            SQLCommands.Update(strUpdateTimeOutQuery, strCasaDatabaseConnectionString);//Updates TimeOut in DB: CasaDatabase --> Table: RoomCleaning
+            SQLCommands.Update(strUpdateTimeOutAsStringQuery, strCasaDatabaseConnectionString);//Updates TimOutAsStr in DB: CasaDatabase --> Table: RoomCleaning
+            //Database Calls (NOT refactored)
             SQLCommands.UpdateElapsedTime(strRoomNumber, this.m_dtTimeIn, this.m_dtTimeOut);//Updates the ElapsedTime field in DB: Casadatabase --> Table: RoomCleaning
-            SQLCommands.SetRoomAttendant(strRoomNumber);
-            //Imposibility Check
+            SQLCommands.SetRoomAttendant(strRoomNumber);//Updates RoomAttendant in DB: CasaDatabase --> Table: RoomCleaning
+
+            //Imposibility Check: Checks to see if both CleaningInProgressFlag and InspectionFlag == 1. If so Reverts both values back to 0.
             if (SQLCommands.SQLImposibilityCheck(strRoomNumber) == 1)
             {
                 SQLCommands.SQLRevert(strRoomNumber);
             }
         }
+
+        
 
         public string GetRoomNumber()
         {
