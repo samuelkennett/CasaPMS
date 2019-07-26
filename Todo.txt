@@ -29,3 +29,6 @@ ToDo's
 - Implement data structure for UserNames.
 - Implement database commands for UserNames.
 - Compartmentalize the SQLCommands class because its getting too big.
+--------------------------------------------------------------------------------------------------------------------------
+7/26/2019
+- Research UI plugins for Microsoft Visual Studio
