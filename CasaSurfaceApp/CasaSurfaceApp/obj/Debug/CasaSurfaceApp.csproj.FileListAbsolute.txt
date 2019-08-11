@@ -1,0 +1,16 @@
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\bin\Debug\CasaSurfaceApp.exe.config
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\bin\Debug\CasaSurfaceApp.exe
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\bin\Debug\CasaSurfaceApp.pdb
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.csprojAssemblyReference.cache
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\MainWindow.g.cs
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\App.g.cs
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp_MarkupCompile.cache
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp_MarkupCompile.lref
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\MainWindow.baml
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.g.resources
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.Properties.Resources.resources
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.csproj.GenerateResource.cache
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.csproj.CoreCompileInputs.cache
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.exe
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.pdb
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.csproj.Fody.CopyLocal.cache

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasaSurfaceApp", "CasaSurfaceApp\CasaSurfaceApp.csproj", "{BE47496F-367D-4739-A8D8-38FD1C4F4666}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE47496F-367D-4739-A8D8-38FD1C4F4666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE47496F-367D-4739-A8D8-38FD1C4F4666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE47496F-367D-4739-A8D8-38FD1C4F4666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE47496F-367D-4739-A8D8-38FD1C4F4666}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12859EF6-8019-42D4-862E-7AC8C51FDB5E}
+	EndGlobalSection
+EndGlobal
