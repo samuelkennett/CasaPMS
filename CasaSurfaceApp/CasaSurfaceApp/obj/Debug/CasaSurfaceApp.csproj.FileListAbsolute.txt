@@ -14,3 +14,4 @@ C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp
 C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.exe
 C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.pdb
 C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\CasaSurfaceApp.csproj.Fody.CopyLocal.cache
+C:\Users\Sam\source\repos\CasaSurfaceApp\CasaSurfaceApp\obj\Debug\GeneratedInternalTypeHelper.g.cs

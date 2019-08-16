@@ -7,9 +7,9 @@ namespace CasaSurfaceApp
 {
     public class RoomAttendantViewModel : BaseViewModel
     {
-        public ObservableCollection<RoomAttendantName> m_RoomAttendantNames;
+       public ObservableCollection<RoomAttendantName> m_RoomAttendantNames;
 
-        public ICommand PopulateNames { get; set; }
+        
 
        public RoomAttendantViewModel()
         {

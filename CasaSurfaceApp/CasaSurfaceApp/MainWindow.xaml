@@ -6,22 +6,22 @@
         xmlns:local="clr-namespace:CasaSurfaceApp"
         mc:Ignorable="d"
         Title="Casablanca Oceanside Inn" Height="450" Width="800">
-    <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.New" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"></CommandBinding>
-    </Window.CommandBindings>
+
+    <Window.Resources>
+        <local:RoomAttendantViewModel x:Key="m"></local:RoomAttendantViewModel>
+    </Window.Resources>
     <Border Padding="10">
 
         <StackPanel>
             <TextBlock x:Name="Header" Text="Casablanca Oceanside Inn" HorizontalAlignment="center" FontSize="24" FontStyle="Italic" FontWeight="Bold" />
             <TextBlock Text="Select a Housekeeper :" HorizontalAlignment="center" Margin="20" FontSize="16" FontWeight="Regular"/>
-            
-            <StackPanel x:Name="spHousekeepers" HorizontalAlignment="center" >
+            <StackPanel DataContext="{Binding Source={StaticResource m}}" x:Name="spHousekeepers" HorizontalAlignment="center" >
                 <!-- Load Housekeeper names here -->
                 <ComboBox x:Name="cbHousekeepers" HorizontalAlignment="Center" Width="200"></ComboBox>
-                <TextBlock x:Name="tbHouseKeepers" HorizontalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="tbHouseKeepers" HorizontalAlignment="Center">Item that has been selected: </TextBlock>
             </StackPanel>
             
-            <Button x:Name="NextButton" HorizontalAlignment="Right" Margin="20 200" Width="75"> Next </Button>
+            <Button x:Name="NextButton" IsEnabled="False" HorizontalAlignment="Right" Margin="20 200" Width="75"> Next </Button>
         </StackPanel>
               
     </Border>
