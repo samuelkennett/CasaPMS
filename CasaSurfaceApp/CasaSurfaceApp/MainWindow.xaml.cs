@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CasaSurfaceApp
 {
@@ -22,10 +23,10 @@ namespace CasaSurfaceApp
         public void GenerateControls()
         {          
             cbHousekeepers.ItemsSource = GenerateHouseKeepers();
-            cbHousekeepers.SelectedIndex = 0;//Sets the selected item in the combo box to default to the first item.
+            cbHousekeepers.SelectedIndex = 0;//Sets the selected item in the combo box to default to the first item
         }
 
-        //need to make a NofityPropertyChanged when a new combobox item is selected
+        //need to make a NofityPropertyChanged when a new combobox item is selected that then updates the text block
         
 
         public ObservableCollection<string> GenerateHouseKeepers()
@@ -39,7 +40,9 @@ namespace CasaSurfaceApp
             return ocNames;
         }
 
-
-
+        private void CbHousekeepers_DropDownClosed(object sender, System.EventArgs e)
+        {
+            tbHouseKeepers.Text = cbHousekeepers.SelectedItem.ToString();
+        }
     }
 }

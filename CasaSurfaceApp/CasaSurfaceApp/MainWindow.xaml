@@ -17,11 +17,11 @@
             <TextBlock Text="Select a Housekeeper :" HorizontalAlignment="center" Margin="20" FontSize="16" FontWeight="Regular"/>
             <StackPanel DataContext="{Binding Source={StaticResource m}}" x:Name="spHousekeepers" HorizontalAlignment="center" >
                 <!-- Load Housekeeper names here -->
-                <ComboBox x:Name="cbHousekeepers" HorizontalAlignment="Center" Width="200"></ComboBox>
+                <ComboBox x:Name="cbHousekeepers" HorizontalAlignment="Center" Width="200" DropDownClosed="CbHousekeepers_DropDownClosed"></ComboBox>
                 <TextBlock x:Name="tbHouseKeepers" HorizontalAlignment="Center">Item that has been selected: </TextBlock>
             </StackPanel>
             
-            <Button x:Name="NextButton" IsEnabled="False" HorizontalAlignment="Right" Margin="20 200" Width="75"> Next </Button>
+            <Button x:Name="NextButton" IsEnabled="False" HorizontalAlignment="Right" Margin="20 200" Width="75" > Next </Button>
         </StackPanel>
               
     </Border>
